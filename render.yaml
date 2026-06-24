@@ -24,4 +24,4 @@ services:
 databases:
   - name: tripsync-db
     plan: free
-    postgresVersion: 16
+
