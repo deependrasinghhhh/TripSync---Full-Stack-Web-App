@@ -3,8 +3,8 @@ services:
     name: tripsync-api
     env: node
     plan: free
-    buildCommand: NODE_ENV=development pnpm install && pnpm --filter @tripsync/api db:generate && pnpm --filter @tripsync/api build
-    startCommand: pnpm -F @tripsync/api exec prisma migrate deploy && pnpm --filter @tripsync/api start
+    buildCommand: pnpm install && pnpm --filter @tripsync/api db:generate && pnpm --filter @tripsync/api build
+    startCommand: cd apps/api && npx prisma migrate deploy && node dist/index.js
     envVars:
       - key: NODE_ENV
         value: production
