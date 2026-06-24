@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: tripsync-api
+    env: node
+    plan: free
+    buildCommand: pnpm install && pnpm --filter @tripsync/api db:generate && pnpm build
+    startCommand: pnpm -F @tripsync/api exec prisma migrate deploy && pnpm --filter @tripsync/api start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tripsync-db
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://web-beryl-xi-80.vercel.app
+      - key: OPENAI_API_KEY
+        sync: false # Set manually in Render dashboard
+
+databases:
+  - name: tripsync-db
+    plan: free
+    postgresVersion: 16
